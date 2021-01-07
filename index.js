@@ -3,7 +3,7 @@ const axios = require('axios')
 const { createBotChannel, makeAuth} = require('./logic/functions')
 const { newGame } = require('./logic/newGame')
 const Discord = require('discord.js');
-const client = new Discord.Client();
+const client = new Discord.Client().login();
 const cronJob = require('cron').CronJob;
 const fs = require('fs');
 client.commands = new Discord.Collection();
@@ -17,6 +17,18 @@ for (const file of commandFiles) {
 }
 ///////////////////////////////Constants////////////////////////////////////////////////
 let botchannel
+//////////////////////////////express server///////////////////////////////////////////
+const express = require('express');
+const app = express();
+const port = 80;
+
+app.get('/', (req, res) => res.send('Hello World!'));
+app.get('/auth/twitch/callback', (req, res) => {
+    console.log("called back")
+    res.redirect('/')
+})
+
+app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
 ///////////////////////////////////////Event listening//////////////////////////////////
 client.on('ready', async () => {
     //create channel for Bot if it doesnt exist already
