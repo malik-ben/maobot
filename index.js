@@ -58,4 +58,5 @@ client.on('message', async message => {
     let genre = part[0]*/
     }
 });
+console.log(`listening to ${process.env.DISCORD_BOT_TOKEN}`)
 client.login(process.env.DISCORD_BOT_TOKEN);
