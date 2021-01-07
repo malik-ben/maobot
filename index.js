@@ -20,7 +20,7 @@ let botchannel
 //////////////////////////////express server///////////////////////////////////////////
 const express = require('express');
 const app = express();
-const port = 80;
+const port = 4000;
 
 app.get('/', (req, res) => res.send('Hello World!'));
 app.get('/auth/twitch/callback', (req, res) => {
