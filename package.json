@@ -4,9 +4,10 @@
   "description": "Discord bot - Tell me mao",
   "main": "index.js",
   "scripts": {
-    "start": "set NODE_ENV=production&& pm2 start index.js",
+    "start": "set NODE_ENV=production&& ./node_modules/pm2/bin/pm2-runtime index.js",
     "dev": "set NODE_ENV=development&& node index.js",
-    "prod": "set NODE_ENV=production&& node index.js"
+    "prod": "set NODE_ENV=production&& node index.js",
+    "poststart":  "node ./node_modules/pm2/bin/pm2 logs"
   },
   "keywords": [],
   "author": "",
