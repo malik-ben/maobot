@@ -4,7 +4,7 @@
   "description": "Discord bot - Tell me mao",
   "main": "index.js",
   "scripts": {
-    "start":"set NODE_ENV=production&& pm2 start index.js",
+    "start": "set NODE_ENV=production&& pm2 start index.js",
     "dev": "set NODE_ENV=development&& node index.js",
     "prod": "set NODE_ENV=production&& node index.js"
   },
@@ -19,7 +19,8 @@
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-session": "^1.17.1"
+    "express-session": "^1.17.1",
+    "pm2": "^4.5.1"
   },
   "devDependencies": {}
 }
