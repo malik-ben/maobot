@@ -6,6 +6,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const cronJob = require('cron').CronJob;
 const fs = require('fs');
+var path = require('path')
 client.commands = new Discord.Collection();
 console.log(process.env.NODE_ENV)
 //////////////////////////////////////////////////////////////////////////////////////
@@ -19,9 +20,13 @@ for (const file of commandFiles) {
 let botchannel
 //////////////////////////////express server///////////////////////////////////////////
 const express = require('express');
+const { pathToFileURL } = require('url');
 const app = express();
 const port = process.env.port || 3000;
-app.get('/', (req, res) => res.send('Hello World!'));
+app.use(express.static('assets'))
+app.get('/', (req, res) => {
+    res.sendFile('index.html', {root:path.join(__dirname, './html')})
+});
 app.get('/auth/twitch/callback', (req, res) => {
     console.log("called back")
     res.redirect('/')
