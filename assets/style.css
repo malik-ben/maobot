@@ -38,6 +38,7 @@ body {
 
 .header_menu {
 	text-align: center;
+	height: 50px;
 }
 
 .header_menu ul {
@@ -176,12 +177,15 @@ body {
 	padding: 20px 0;
 	text-align: center;
 	color: #fff;
+
+	
 }
 
 .func_subtitle p {
 	position: relative;
 	padding: 5px 30px;
 	color: #C9D8D2;
+	margin-top: 20px;
 }
 
 .left img {
