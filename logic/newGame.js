@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 const port = process.env.port || 3000;
 
 const newGame = async (botchannel, guild, type = "ch") => {
-    //await createBotChannel(guild).then(res => { return res })
+    await createBotChannel(guild).then(res => { return res })
     let gid = guild.id
     let channelMsg = type == "ch" ? botchannel : botchannel.channel
     let token = verify(gid)

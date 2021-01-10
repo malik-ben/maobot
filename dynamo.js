@@ -3,7 +3,6 @@ const aws_conf = { region: "eu-west-1" }
 AWS.config.update(aws_conf);
 var docClient = new AWS.DynamoDB.DocumentClient();
 
-
 const addChannel = (gid, token, ttl) => {
 
     var expires_in = Math.floor(Date.now() / 1000) + ttl - 300
