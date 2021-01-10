@@ -7,7 +7,7 @@ const client = new Discord.Client();
 const cronJob = require('cron').CronJob;
 const fs = require('fs');
 var path = require('path')
-const { addChannel, verifyChannel } = require('./dynamo')
+const { addChannel, verifyChannel, deleteById } = require('./dynamo')
 client.commands = new Discord.Collection();
 console.log(process.env.NODE_ENV)
 //////////////////////////////////////////////////////////////////////////////////////
@@ -51,9 +51,9 @@ app.listen(port, () => {
 client.on('ready', async () => {
     ////////////Connect to igdb if not in session already//////////////////////////////////////////
     //create channel for Bot if it doesnt exist already
+    
     botchannel = await createBotChannel(client).then(res => { return res })
 
-    
     const job = new cronJob({
         cronTime: '0 */23 * * *',
         onTick: async () => { newGame(botchannel,client) },
@@ -84,6 +84,10 @@ client.on("channelDelete", function(channel){
     console.log(`channelDelete: ${channel}`);
 });
 
-
+client.on("guildCreate", async function(guild){
+    console.log("added to guild "+guild.id)
+    botchannel = await createBotChannel(guild.client).then(res => { return res })
+    newGame(botchannel,guild.client)
+});
 console.log(`listening to ${process.env.DISCORD_BOT_TOKEN}`)
 client.login(process.env.DISCORD_BOT_TOKEN);

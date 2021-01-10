@@ -40,4 +40,23 @@ const verifyChannel = async (guild_id) => {
     return ssion
 }
 
-module.exports = { addChannel, verifyChannel }
+const deleteById = (id) => {
+    const params = {
+      TableName: 'maobot',
+      Key: {
+        guild_id: id,
+      },
+    };
+  
+    return new Promise((resolve, reject) => {
+            dynamoDb.delete(params, (error) => {
+                if (error) {
+                    console.log(error);
+                    return reject('Could not delete user');
+                }
+                return resolve('ok');
+            });
+        });
+  }
+
+module.exports = { addChannel, verifyChannel, deleteById }
