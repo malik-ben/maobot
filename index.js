@@ -73,5 +73,4 @@ client.on("guildCreate", async function(guild){
         start: true
     });
 });
-console.log(`listening to ${process.env.DISCORD_BOT_TOKEN}`)
 client.login(process.env.DISCORD_BOT_TOKEN);

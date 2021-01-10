@@ -4,14 +4,16 @@ const fetch = require('node-fetch');
 const port = process.env.port || 3000;
 
 const newGame = async (botchannel, guild, type = "ch") => {
-    await createBotChannel(guild).then(res => { return res })
+    //await createBotChannel(guild).then(res => { return res })
     let gid = guild.id
     let channelMsg = type == "ch" ? botchannel : botchannel.channel
-    let token = verify(gid)
     let data = `fields ${FIELDS}; 
                 limit 30;sort first_release_date desc; 
                 where  ${FILTERS};`
     const newLocal = '/games';
+
+    let token = await verify(gid).then(tok => tok)
+    console.log(`token received: ${token}`)
     let igdb = createBaseCall(token)
     let response = await apiCall(newLocal, data, igdb)
         .then(async res => {

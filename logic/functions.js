@@ -7,28 +7,24 @@ const START = new Date(NOW - WEEK).getTime()
 
 const createBotChannel = async (guild) => {
     let channelExists = false
-    let channelID
+    //let channelID
     try {
         let guildID = guild.id//guild.client.guilds.cache.array()[0].id
         //let guild = await client.guilds.fetch(guildID).then(g => { return g })
         let channels = guild.channels.cache.array()
         let botchannel
         for (const channel of channels) {
-            if (channel.name.includes("tell-me-mao")) {
+            if (channel.name.includes("tell-me-maooo")) {
                 channelExists = true
-                channelID = channel.id
-                botchannel = await client.channels.fetch(channel.id).then(g => { return g })
+                //channelID = channel.id
+                botchannel = channel //await guild.channels.fetch(channel.id).then(g => { return g })
                 //console.log(`channel name is ${channel.name} with id ${channel.id}`);
             }
         }
         if (!channelExists) {
             console.log("channel does not exist, let's create one...")
-            botchannel = await guild.channels.create('Tell-Me-Mao', { reason: 'Discover new games here' })
-                .then(async (data) => {
-                        console.log(data.id);
-                        let bc = await guild.channels.fetch(data.id).then(g => { return g; });
-                        return bc;
-                    })
+            botchannel = await guild.channels.create('tell-me-maooo', { reason: 'Discover new games here' })
+                .then((guildChannel) => guildChannel)
                 .catch(console.error)
         }
         return botchannel
@@ -90,12 +86,13 @@ let verify = async (gid) => {
             let user = await makeAuth()
             console.log(`auth ${user.access_token} and ttl ${user.expires_in}`)
             let added = addChannel(guild_id, user.access_token, user.expires_in)
-            return user
+            return user.access_token
         } else {
             //Channel found in DB
-            return data
+            return data.access_token
         }
     })
+    return ifany
 
 }
 
