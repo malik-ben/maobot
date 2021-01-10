@@ -11,7 +11,6 @@ const newGame = async (botchannel, guild, type = "ch") => {
                 limit 30;sort first_release_date desc; 
                 where  ${FILTERS};`
     const newLocal = '/games';
-
     let token = await verify(gid).then(tok => tok)
     console.log(`token received: ${token}`)
     let igdb = createBaseCall(token)
