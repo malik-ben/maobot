@@ -14,7 +14,7 @@ const createBotChannel = async (guild) => {
         let channels = guild.channels.cache.array()
         let botchannel
         for (const channel of channels) {
-            if (channel.name.includes("tell-me-maooo")) {
+            if (channel.name.includes("tell-me-mao")) {
                 channelExists = true
                 //channelID = channel.id
                 botchannel = channel //await guild.channels.fetch(channel.id).then(g => { return g })
@@ -23,7 +23,7 @@ const createBotChannel = async (guild) => {
         }
         if (!channelExists) {
             console.log("channel does not exist, let's create one...")
-            botchannel = await guild.channels.create('tell-me-maooo', { reason: 'Discover new games here' })
+            botchannel = await guild.channels.create('tell-me-mao', { reason: 'Discover new games here' })
                 .then((guildChannel) => guildChannel)
                 .catch(console.error)
         }
