@@ -1,8 +1,7 @@
 module.exports = {
-	name: 'more',
-	description: 'More!',
+	name: 'mao',
+	description: 'Mao!',
 	execute(message, args, newGame, client) {
-		//message.channel.send('Mooooore!!!');
 		newGame(message, client, "ms")
 	},
 };

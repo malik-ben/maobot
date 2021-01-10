@@ -71,7 +71,7 @@ client.on('message', async message => {
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
 
-    if (command == "more") {
+    if (command == "mao") {
         client.commands.get(command).execute(message, args, newGame, client);
     } else if (command == "genre") {
         /*let part = message.content.slice(prefix.length).split(" ")
