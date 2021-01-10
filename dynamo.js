@@ -4,7 +4,6 @@ AWS.config.update(aws_conf);
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 const addChannel = (gid, token, ttl) => {
-
     var expires_in = Math.floor(Date.now() / 1000) + ttl - 300
     var table = "maobot";
     var params = {
@@ -38,24 +37,21 @@ const verifyChannel = async (guild_id) => {
         .catch(console.error)
     return ssion
 }
-
 const deleteById = (id) => {
     const params = {
-      TableName: 'maobot',
-      Key: {
-        guild_id: id,
-      },
+        TableName: 'maobot',
+        Key: {
+            guild_id: id,
+        },
     };
-  
     return new Promise((resolve, reject) => {
-            dynamoDb.delete(params, (error) => {
-                if (error) {
-                    console.log(error);
-                    return reject('Could not delete user');
-                }
-                return resolve('ok');
-            });
+        dynamoDb.delete(params, (error) => {
+            if (error) {
+                console.log(error);
+                return reject('Could not delete user');
+            }
+            return resolve('ok');
         });
-  }
-
+    });
+}
 module.exports = { addChannel, verifyChannel, deleteById }

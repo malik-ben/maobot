@@ -31,24 +31,8 @@ app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
 ///////////////////////////////////////Event listening////////////////////////////////////////////////
-client.on('ready', async () => {
-    ////////////Connect to igdb if not in session already//////////////////////////////////////////
-    //create channel for Bot if it doesnt exist already
-    
-   /* botchannel = await createBotChannel(client).then(res => { return res })
-
-    const job = new cronJob({
-        cronTime: '0 23 * * *',
-        onTick: async () => { newGame(botchannel,client) },
-        runOnInit: true,
-        start: true
-    });*/
-});
+client.on('ready', async () => {});
 client.on('message', async message => {
-    if (message.content === 'ping') {
-        //msg.reply('Pong!');
-        botchannel.send("Pong")
-    }
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
     if (command == "mao") {
@@ -65,7 +49,6 @@ client.on("channelDelete", function(channel){
 client.on("guildCreate", async function(guild){
     console.log(`added to guild ${guild.id}`)
     botchannel = await createBotChannel(guild).then(res => { return res })
-    //newGame(botchannel,guild)
     const job = new cronJob({
         cronTime: '0 */23 * * *',
         onTick: async () => { newGame(botchannel,guild) },
