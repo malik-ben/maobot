@@ -27,67 +27,51 @@ app.use(express.static('assets'))
 app.get('/', (req, res) => {
     res.sendFile('index.html', { root: path.join(__dirname, './html') })
 });
-app.get('/verify/:gid', async (req, res) => {
-    let gid = parseInt(req.params.gid)
-    let ifany = await verifyChannel(gid).then(async data => {
-        if (typeof data == "undefined") {
-            console.log("wait a second...")
-            let user = await makeAuth()
-            console.log(`auth ${user.access_token} and ttl ${user.expires_in}`)
-            let added = addChannel(gid, user.access_token, user.expires_in)
-            res.send( user)
-        } else {
-            //Channel found in DB
-            res.send(data)
-        }
-    })
-
-})
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
-
 });
 ///////////////////////////////////////Event listening////////////////////////////////////////////////
 client.on('ready', async () => {
     ////////////Connect to igdb if not in session already//////////////////////////////////////////
     //create channel for Bot if it doesnt exist already
     
-    botchannel = await createBotChannel(client).then(res => { return res })
+   /* botchannel = await createBotChannel(client).then(res => { return res })
 
     const job = new cronJob({
-        cronTime: '0 */23 * * *',
+        cronTime: '0 23 * * *',
         onTick: async () => { newGame(botchannel,client) },
         runOnInit: true,
         start: true
-    });
+    });*/
 });
-
 client.on('message', async message => {
     if (message.content === 'ping') {
         //msg.reply('Pong!');
         botchannel.send("Pong")
     }
-
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
-
     if (command == "mao") {
-        client.commands.get(command).execute(message, args, newGame, client);
+        client.commands.get(command).execute(message, args, newGame);
     } else if (command == "genre") {
         /*let part = message.content.slice(prefix.length).split(" ")
             let title = part[part.length - 1]
             let genre = part[0]*/
     }
 });
-
 client.on("channelDelete", function(channel){
     console.log(`channelDelete: ${channel}`);
 });
-
 client.on("guildCreate", async function(guild){
-    console.log("added to guild "+guild.id)
+    console.log(`added to guild ${guild.id}`)
     botchannel = await createBotChannel(guild.client).then(res => { return res })
     newGame(botchannel,guild.client)
+    const job = new cronJob({
+        cronTime: '0 */23 * * *',
+        onTick: async () => { newGame(botchannel,guild) },
+        runOnInit: true,
+        start: true
+    });
 });
 console.log(`listening to ${process.env.DISCORD_BOT_TOKEN}`)
 client.login(process.env.DISCORD_BOT_TOKEN);

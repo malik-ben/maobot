@@ -1,16 +1,17 @@
 const axios = require('axios')
+const {verifyChannel, addChannel} = require('./../dynamo')
 const DAY = 1000 * 60 * 60 * 24
 const WEEK = DAY * 7
 const NOW = new Date().getTime();
 const START = new Date(NOW - WEEK).getTime()
 
-const createBotChannel = async (client) => {
+const createBotChannel = async (guild) => {
     let channelExists = false
     let channelID
     try {
-        let guildID = client.guilds.cache.array()[0].id
-        let guild = await client.guilds.fetch(guildID).then(g => { return g })
-        let channels = client.channels.cache.array()
+        let guildID = guild.id//guild.client.guilds.cache.array()[0].id
+        //let guild = await client.guilds.fetch(guildID).then(g => { return g })
+        let channels = guild.channels.cache.array()
         let botchannel
         for (const channel of channels) {
             if (channel.name.includes("tell-me-mao")) {
@@ -25,7 +26,7 @@ const createBotChannel = async (client) => {
             botchannel = await guild.channels.create('Tell-Me-Mao', { reason: 'Discover new games here' })
                 .then(async (data) => {
                         console.log(data.id);
-                        let bc = await client.channels.fetch(data.id).then(g => { return g; });
+                        let bc = await guild.channels.fetch(data.id).then(g => { return g; });
                         return bc;
                     })
                 .catch(console.error)
@@ -37,6 +38,9 @@ const createBotChannel = async (client) => {
         console.log(err)
     }
 }
+
+
+
 const makeAuth = async () => {
     let clientid = process.env.CLIENTID
     let secret = process.env.SECRET
@@ -48,6 +52,9 @@ const makeAuth = async () => {
         .catch(console.error)
     return data
 }
+
+
+
 const createBaseCall = (token) => {
     let base = axios.create({
         baseURL: "https://api.igdb.com/v4",
@@ -60,6 +67,9 @@ const createBaseCall = (token) => {
     return base
 }
 
+
+
+
 const apiCall = async (url, data, igdb) => {
     let resp = await igdb({
         url: url,
@@ -68,4 +78,26 @@ const apiCall = async (url, data, igdb) => {
     })
     return resp
 }
-module.exports = { createBotChannel, makeAuth, createBaseCall, apiCall }
+
+
+
+
+let verify = async (gid) => {
+    let guild_id = parseInt(gid)
+    let ifany = await verifyChannel(guild_id).then(async data => {
+        if (typeof data == "undefined") {
+            console.log("wait a second...")
+            let user = await makeAuth()
+            console.log(`auth ${user.access_token} and ttl ${user.expires_in}`)
+            let added = addChannel(guild_id, user.access_token, user.expires_in)
+            return user
+        } else {
+            //Channel found in DB
+            return data
+        }
+    })
+
+}
+
+
+module.exports = { createBotChannel, makeAuth, createBaseCall, apiCall, verify }

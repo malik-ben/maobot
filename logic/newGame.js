@@ -1,18 +1,13 @@
-const { apiCall, createBaseCall, createBotChannel } = require('./functions')
+const { apiCall, createBaseCall, createBotChannel, verify } = require('./functions')
 const { FIELDS, FILTERS } = require('./../queries/query')
 const fetch = require('node-fetch');
 const port = process.env.port || 3000;
 
-const newGame = async (botchannel, client, type = "ch") => {
-    await createBotChannel(client).then(res => { return res })
-    let gid = type == "ch" ? botchannel.guild.id : botchannel.guild.id
+const newGame = async (botchannel, guild, type = "ch") => {
+    //await createBotChannel(guild).then(res => { return res })
+    let gid = guild.id
     let channelMsg = type == "ch" ? botchannel : botchannel.channel
-    let token = await fetch(`http://localhost:${port}/verify/${gid}`)
-        .then(res => res.json())
-        .then(res => {
-            console.log(`the token is received cocrrectly: ${res.access_token}`);
-            return res.access_token
-        })
+    let token = verify(gid)
     let data = `fields ${FIELDS}; 
                 limit 30;sort first_release_date desc; 
                 where  ${FILTERS};`

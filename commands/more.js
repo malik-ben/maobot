@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'mao',
 	description: 'Mao!',
-	execute(message, args, newGame, client) {
-		newGame(message, client, "ms")
+	execute(message, args, newGame) {
+		newGame(message, message.guild, "ms")
 	},
 };
