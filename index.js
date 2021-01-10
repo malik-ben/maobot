@@ -64,8 +64,8 @@ client.on("channelDelete", function(channel){
 });
 client.on("guildCreate", async function(guild){
     console.log(`added to guild ${guild.id}`)
-    botchannel = await createBotChannel(guild.client).then(res => { return res })
-    newGame(botchannel,guild.client)
+    botchannel = await createBotChannel(guild).then(res => { return res })
+    newGame(botchannel,guild)
     const job = new cronJob({
         cronTime: '0 */23 * * *',
         onTick: async () => { newGame(botchannel,guild) },
