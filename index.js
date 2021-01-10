@@ -50,7 +50,7 @@ client.on("guildCreate", async function(guild){
     console.log(`added to guild ${guild.id}`)
     botchannel = await createBotChannel(guild).then(res => { return res })
     const job = new cronJob({
-        cronTime: '0 */23 * * *',
+        cronTime: '20 16 * * *',
         onTick: async () => { newGame(botchannel,guild) },
         runOnInit: true,
         start: true
