@@ -1,8 +1,8 @@
 module.exports = {
 	name: 'more',
 	description: 'More!',
-	execute(message, args, newGame) {
+	execute(message, args, newGame, client) {
 		//message.channel.send('Mooooore!!!');
-		newGame(message, "ms")
+		newGame(message, client, "ms")
 	},
 };

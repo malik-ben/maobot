@@ -56,7 +56,7 @@ client.on('ready', async () => {
     
     const job = new cronJob({
         cronTime: '0 */23 * * *',
-        onTick: async () => { newGame(botchannel) },
+        onTick: async () => { newGame(botchannel,client) },
         runOnInit: true,
         start: true
     });
@@ -72,13 +72,18 @@ client.on('message', async message => {
     const command = args.shift().toLowerCase();
 
     if (command == "more") {
-        client.commands.get(command).execute(message, args, newGame);
+        client.commands.get(command).execute(message, args, newGame, client);
     } else if (command == "genre") {
         /*let part = message.content.slice(prefix.length).split(" ")
             let title = part[part.length - 1]
             let genre = part[0]*/
     }
 });
+
+client.on("channelDelete", function(channel){
+    console.log(`channelDelete: ${channel}`);
+});
+
 
 console.log(`listening to ${process.env.DISCORD_BOT_TOKEN}`)
 client.login(process.env.DISCORD_BOT_TOKEN);

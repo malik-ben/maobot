@@ -1,10 +1,10 @@
-const { apiCall, createBaseCall } = require('./functions')
+const { apiCall, createBaseCall, createBotChannel } = require('./functions')
 const { FIELDS, FILTERS } = require('./../queries/query')
 const fetch = require('node-fetch');
 const port = process.env.port || 3000;
 
-const newGame = async (botchannel, type = "ch") => {
-
+const newGame = async (botchannel, client, type = "ch") => {
+    await createBotChannel(client).then(res => { return res })
     let gid = type == "ch" ? botchannel.guild.id : botchannel.guild.id
     let channelMsg = type == "ch" ? botchannel : botchannel.channel
     let token = await fetch(`http://localhost:${port}/verify/${gid}`)
