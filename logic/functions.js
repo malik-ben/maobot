@@ -3,7 +3,7 @@ const DAY = 1000 * 60 * 60 * 24
 const WEEK = DAY * 7
 const NOW = new Date().getTime();
 const START = new Date(NOW - WEEK).getTime()
-console.log(START, NOW)
+
 const createBotChannel = async (client) => {
     let channelExists = false
     let channelID
@@ -40,22 +40,26 @@ const createBotChannel = async (client) => {
 const makeAuth = async () => {
     let clientid = process.env.CLIENTID
     let secret = process.env.SECRET
-    await axios.post(`https://id.twitch.tv/oauth2/token?client_id=${clientid}&client_secret=${secret}&grant_type=client_credentials`)
-        .then(res => {console.log(res.data); return res.data})
+    let data = await axios.post(`https://id.twitch.tv/oauth2/token?client_id=${clientid}&client_secret=${secret}&grant_type=client_credentials`)
+        .then(res => {
+            //console.log(`Auth data response:${res.data.access_token}`);
+            return res.data
+        })
         .catch(console.error)
+    return data
 }
-const createBaseCall = () => {
+const createBaseCall = (token) => {
     let base = axios.create({
         baseURL: "https://api.igdb.com/v4",
         headers: {
             'Accept': 'application/json',
             'Client-ID': `${process.env.CLIENTID}`,
-            'Authorization': 'Bearer zfvj7otj83g1rw3rxhgixxtvkz3zbo'
+            'Authorization': `Bearer ${token}`
         }
     })
     return base
 }
-let igdb = createBaseCall()
+
 const apiCall = async (url, data, igdb) => {
     let resp = await igdb({
         url: url,

@@ -3,6 +3,6 @@ module.exports = {
 	description: 'More!',
 	execute(message, args, newGame) {
 		//message.channel.send('Mooooore!!!');
-		newGame(message.channel)
+		newGame(message, "ms")
 	},
 };
