@@ -2,7 +2,15 @@
 const DAY = 1000 * 60 * 60 * 24
 const WEEK = DAY * 7
 const NOW = new Date().getTime();
-const START = new Date(NOW - WEEK).getTime()
+const BACK = (NOW - WEEK) / 1000
+const START = new Date(NOW - WEEK).getTime()/1000.0
+
+function getLastWeek() {
+    var today = new Date();
+    var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+    return lastWeek;
+  }
+var lastWeek = getLastWeek().getTime();
 ////////////////////////////Make Queries///////////////////////////////////////////////
 const FIELDS = `name, 
                 rating,
@@ -25,7 +33,7 @@ const FILTERS = `rating >= 60 &
                  external_games.url != null & 
                  first_release_date != null &
                  external_games.category=(1) &
-                 first_release_date < ${START}
+                 first_release_date > ${lastWeek}
                  `
 
 module.exports = { FIELDS, FILTERS}

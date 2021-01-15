@@ -8,8 +8,9 @@ const newGame = async (botchannel, guild, type = "ch") => {
     let gid = guild.id
     let channelMsg = type == "ch" ? botchannel : botchannel.channel
     let data = `fields ${FIELDS}; 
-                limit 30;sort first_release_date desc; 
-                where  ${FILTERS};`
+                where  ${FILTERS};
+                limit 40;sort first_release_date desc; `
+           console.log(data)     
     const newLocal = '/games';
     let token = await verify(gid).then(tok => tok)
     console.log(`token received: ${token}`)
@@ -27,7 +28,7 @@ const newGame = async (botchannel, guild, type = "ch") => {
                         games.push({ "name": game.name, "url": cat.url })
                 });
             })
-            await channelMsg.messages.fetch({ limit: 25 })
+            await channelMsg.messages.fetch({ limit: 50 })
                 .then(reponse => {
                     if (new Map(reponse).size > 0) {
                         reponse.map(message => {

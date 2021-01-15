@@ -53,7 +53,7 @@ const createBaseCall = (token) => {
 const apiCall = async (url, data, igdb) => {
     let resp = await igdb({
         url: url,
-        method: 'POST',
+        method: 'post',
         data: data
     })
     return resp
