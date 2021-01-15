@@ -15,24 +15,17 @@ const FIELDS = `name,
                 release_dates.y,
                 release_dates.date,
                 release_dates.region,
-                cover, 
-                cover.*,
-                external_games.*,
-                involved_companies.*,
-                involved_companies.company.name
+                external_games.*
 `
-const FILTERS = `release_dates.date > ${START} & 
-                first_release_date > ${START} & 
-                rating >= 60 & 
-                total_rating_count > 1 & 
-                themes != (42) & 
-                platforms=(6)  & 
-                cover != null & 
-                category=(0) & 
-                external_games.url != null & 
-                first_release_date != null &
-                release_dates.region=8 & 
-                external_games.category=(1)
-                `
+const FILTERS = `rating >= 60 & 
+                 total_rating_count > 1 & 
+                 themes != (42) & 
+                 platforms=(6)  & 
+                 category=(0) & 
+                 external_games.url != null & 
+                 first_release_date != null &
+                 external_games.category=(1) &
+                 first_release_date < ${START}
+                 `
 
 module.exports = { FIELDS, FILTERS}
